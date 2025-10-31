@@ -1,17 +1,30 @@
+// Top-level build file
+
 plugins {
-    // Flutter and Android Gradle plugin get applied automatically via Flutter’s tooling
-    // ✅ Add Google Services plugin here, but do NOT apply globally
-    id("com.google.gms.google-services") version "4.4.4" apply false
+    id("dev.flutter.flutter-gradle-plugin") apply false
+}
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://transistorsoft.bintray.com/maven") } // ← add this line
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.5.0")
+        classpath("com.google.gms:google-services:4.4.2") // ✅ Added Google Services plugin classpath
+    }
 }
 
 allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://transistorsoft.bintray.com/maven") } // ← add this line
     }
 }
 
-// ✅ This custom build directory configuration is fine
+// build dir override (optional)
 val newBuildDir: Directory = rootProject.layout.buildDirectory
     .dir("../../build")
     .get()
@@ -20,13 +33,9 @@ rootProject.layout.buildDirectory.value(newBuildDir)
 subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
-}
-
-subprojects {
     project.evaluationDependsOn(":app")
 }
 
-// ✅ Clean task (standard)
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }

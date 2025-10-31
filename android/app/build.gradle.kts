@@ -1,8 +1,8 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android") // ✅ updated plugin ID for Kotlin
+    id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
     id("dev.flutter.flutter-gradle-plugin")
-    id("com.google.gms.google-services") // ✅ required for Firebase
 }
 
 android {
@@ -11,12 +11,12 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17 // ✅ newer Android Gradle requires Java 17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "17"
     }
 
     defaultConfig {
@@ -29,7 +29,10 @@ android {
 
     buildTypes {
         release {
+            // ✅ You should use a real release signing config later
             signingConfig = signingConfigs.getByName("debug")
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }
