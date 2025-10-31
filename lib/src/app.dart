@@ -14,6 +14,7 @@ class AdvancedLocationApp extends StatelessWidget {
       child: Consumer<TrackingProvider>(
         builder: (context, prov, _) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Advanced Location Tracker',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
